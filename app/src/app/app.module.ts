@@ -21,10 +21,26 @@ import { MdbTooltipModule } from 'mdb-angular-ui-kit/tooltip';
 import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DogsComponent } from './dogs/dogs.component';
+import { CatsComponent } from './cats/cats.component';
+import { AnimalsComponent } from './animals/animals.component';
+import { DogComponent } from './dog/dog.component';
+import { CatComponent } from './cat/cat.component';
+import { AnimalComponent } from './animal/animal.component';
+import { GalleryComponent } from './gallery/gallery.component';
+import { ControlComponent } from './control/control.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DogsComponent,
+    CatsComponent,
+    AnimalsComponent,
+    DogComponent,
+    CatComponent,
+    AnimalComponent,
+    GalleryComponent,
+    ControlComponent
   ],
   imports: [
     BrowserModule,

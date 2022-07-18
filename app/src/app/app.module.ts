@@ -29,6 +29,12 @@ import { CatComponent } from './cat/cat.component';
 import { AnimalComponent } from './animal/animal.component';
 import { GalleryComponent } from './gallery/gallery.component';
 import { ControlComponent } from './control/control.component';
+import { AppRoutingModule } from './app-routing.module';
+import { NotfoundComponent } from './notfound/notfound.component';
+import { HomeComponent } from './home/home.component';
+import { ContactComponent } from './contact/contact.component';
+import { VolunteeringComponent } from './volunteering/volunteering.component';
+import { MemoryhallComponent } from './memoryhall/memoryhall.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +46,12 @@ import { ControlComponent } from './control/control.component';
     CatComponent,
     AnimalComponent,
     GalleryComponent,
-    ControlComponent
+    ControlComponent,
+    NotfoundComponent,
+    HomeComponent,
+    ContactComponent,
+    VolunteeringComponent,
+    MemoryhallComponent
   ],
   imports: [
     BrowserModule,
@@ -60,6 +71,7 @@ import { ControlComponent } from './control/control.component';
     MdbTabsModule,
     MdbTooltipModule,
     MdbValidationModule,
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { map } from 'rxjs';
+import { ApiService, DogModel } from '../services/api.service';
 
 @Component({
   selector: 'app-dogs',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DogsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private service:ApiService) {}
 
-  ngOnInit(): void {
+  dogs: DogModel[];
+
+  ngOnInit(){
+    this.service.getDogs().pipe(
+      map((dogs) => dogs[0])
+    );
+    console.log(this.dogs)
   }
-
 }

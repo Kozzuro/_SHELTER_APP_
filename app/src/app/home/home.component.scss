@@ -1,0 +1,6 @@
+.clipping-mask {
+  -webkit-clip-path: url(#mask);
+  clip-path: url(#mask);
+  object-fit: cover;
+  width: 100%;
+}

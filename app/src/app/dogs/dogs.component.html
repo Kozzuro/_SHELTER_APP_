@@ -1,7 +1,5 @@
 <p>dogs works!</p>
 
-<div >
-    <ol >
-        <li *ngFor='let dog of dogs'> {{dog.name}} </li>
-    </ol>
+<div *ngFor = "let dog of dogs">
+  <h3>{{ dog.name }} : {{ dog.birth }}</h3>
 </div>

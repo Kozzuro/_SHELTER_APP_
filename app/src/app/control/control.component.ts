@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DogsService } from '../services/dogs.service';
 
 @Component({
   selector: 'app-control',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ControlComponent implements OnInit {
 
-  constructor() { }
+  constructor(private service: DogsService) {}
 
-  ngOnInit(): void {
+  public dogs = [];
+
+  getAll() {
+    this.service.getDogs().subscribe((results) => {
+      this.dogs = results.data;
+    });
+  }
+
+  ngOnInit() {
+    this.getAll();
   }
 
 }

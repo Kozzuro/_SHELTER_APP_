@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { map } from 'rxjs';
-import { ApiService } from '../services/api.service';
+import { DogsService } from '../services/dogs.service';
 
 @Component({
   selector: 'app-dogs',
@@ -8,7 +7,7 @@ import { ApiService } from '../services/api.service';
   styleUrls: ['./dogs.component.scss'],
 })
 export class DogsComponent implements OnInit {
-  constructor(private service: ApiService) {}
+  constructor(private service: DogsService) {}
 
   public dogs = [];
 

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { DogsService } from '../services/dogs.service';
 
 @Component({
@@ -21,5 +22,12 @@ export class ControlComponent implements OnInit {
   ngOnInit() {
     this.getAll();
   }
+
+  onSubmit(form: NgForm) {
+    // this.service.postDog(form.value).subscribe((response) => {
+    //   console.log(response);
+    // });
+    console.log(form.value.images);
+ }
 
 }

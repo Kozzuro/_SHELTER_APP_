@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { DogsService } from '../services/dogs.service';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-control',
@@ -9,7 +10,7 @@ import { DogsService } from '../services/dogs.service';
 })
 export class ControlComponent implements OnInit {
 
-  constructor(private service: DogsService) {}
+  constructor(private service: DogsService, private ApiService: ApiService ) {}
 
   public dogs = [];
 
@@ -21,6 +22,9 @@ export class ControlComponent implements OnInit {
 
   ngOnInit() {
     this.getAll();
+    this.ApiService.postImage('../../assets/home/dog_blob.png').subscribe((results) => {
+      console.log(results);
+    });
   }
 
   onSubmit(form: NgForm) {

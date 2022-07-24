@@ -6,32 +6,30 @@ import { ApiService } from '../services/api.service';
 @Component({
   selector: 'app-control',
   templateUrl: './control.component.html',
-  styleUrls: ['./control.component.scss']
+  styleUrls: ['./control.component.scss'],
 })
 export class ControlComponent implements OnInit {
+  public images;
 
-  constructor(private service: DogsService, private ApiService: ApiService ) {}
+  constructor(private service: DogsService, private ApiService: ApiService) {}
 
-  public dogs = [];
+  ngOnInit() {}
 
-  getAll() {
-    this.service.getDogs().subscribe((results) => {
-      this.dogs = results.data;
-    });
-  }
-
-  ngOnInit() {
-    this.getAll();
-    this.ApiService.postImage('../../assets/home/dog_blob.png').subscribe((results) => {
-      console.log(results);
-    });
+  onFileSelected(event) {
+    if (event.target.files.length > 0) {
+      this.images = event.target.files[0];
+    }
   }
 
   onSubmit(form: NgForm) {
-    // this.service.postDog(form.value).subscribe((response) => {
-    //   console.log(response);
-    // });
-    console.log(form.value.images);
- }
-
+    let formData = new FormData();
+    formData.append('file', this.images);
+    formData.append('upload_preset', 'my-uploads');
+    this.ApiService.postImage(formData).subscribe((results) => {
+      let all = Object.assign(form.value, { images: results['secure_url'] });
+      this.service.postDog(all).subscribe((response) => {
+        console.log(response);
+      });
+    });
+  }
 }

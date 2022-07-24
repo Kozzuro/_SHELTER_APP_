@@ -37,9 +37,16 @@
 
     <div class="p-2"></div>
 
-    <mdb-form-control>
-      <input mdbInput type="file" name="images" class="form-control" (change)="onFileSelected($event)"/>
-    </mdb-form-control>
+    <div class="row">
+      <div class="col-md-6">
+        <mdb-form-control>
+          <input mdbInput type="file" multiple name="images" class="form-control" (change)="onFileSelected($event)"/>
+        </mdb-form-control>
+      </div>
+      <div class="col-md-6">
+        <button type="button" (click)="uploadImages()" class="btn btn-success btn-rounded">Upload images</button>
+      </div>
+    </div>
 
     <div class="p-2"></div>
 

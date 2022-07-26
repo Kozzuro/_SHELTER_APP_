@@ -1,0 +1,7 @@
+{
+    "/api/*": {
+        "target": "https://api.cloudinary.com/v1_1/kozzuro/image/upload",
+        "secure": false,
+        "logLevel": "debug"
+    }
+}

@@ -30,6 +30,7 @@ export class ControlComponent implements OnInit {
       formData.append('file', this.images[i]);
       formData.append('upload_preset', 'my-uploads');
       this.ApiService.postImage(formData).subscribe((results) => {
+        console.log(results);
         this.images_url.push(results['secure_url']);
       });
     }

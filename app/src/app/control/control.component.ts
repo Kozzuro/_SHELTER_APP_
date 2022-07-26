@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { DogsService } from '../services/dogs.service';
 import { ApiService } from '../services/api.service';
+import { KeycloakService } from 'keycloak-angular';
 
 @Component({
   selector: 'app-control',
@@ -12,15 +13,39 @@ export class ControlComponent implements OnInit {
   public images = [];
   public images_url = [];
 
-  constructor(private service: DogsService, private ApiService: ApiService) {}
+  user = '';
+  newDogButton: boolean;
+  uploadDogImagesButton: boolean;
+  areDogImagesUploaded: boolean;
 
-  ngOnInit() {}
+  constructor(
+    private service: DogsService,
+    private ApiService: ApiService,
+    private keycloakService: KeycloakService
+  ) {}
+
+  ngOnInit() {
+    // this.initializeUserOptions();
+    this.uploadDogImagesButton = true;
+    this.newDogButton = true;
+  }
+
+  // private initializeUserOptions(): void {
+  //   this.user = this.keycloakService.getUsername();
+  // }
+
+  logout(): void {
+    this.keycloakService.logout('http://localhost:4200');
+  }
 
   onFileSelected(event) {
     if (event.target.files.length > 0) {
+      this.uploadDogImagesButton = false;
       for (let i = 0; i < event.target.files.length; i++) {
         this.images.push(event.target.files[i]);
       }
+    } else {
+      this.uploadDogImagesButton = true;
     }
   }
 
@@ -33,12 +58,15 @@ export class ControlComponent implements OnInit {
         this.images_url.push(results['secure_url']);
       });
     }
+    this.newDogButton = true;
   }
 
-  onSubmit(form: NgForm) {
-    let all = Object.assign(form.value, { images: this.images_url });
-    this.service.postDog(all).subscribe((response) => {
-      console.log(response);
-    });
+  onSubmitNewDog(form: NgForm) {
+    if (form.valid) {
+      let all = Object.assign(form.value, { images: this.images_url });
+      this.service.postDog(all).subscribe((response) => {
+        console.log(response);
+      });
+    }
   }
 }

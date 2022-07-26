@@ -1,9 +1,10 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
+import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 
 // MDB Modules
 import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
@@ -38,6 +39,24 @@ import { ContactComponent } from './contact/contact.component';
 import { VolunteeringComponent } from './volunteering/volunteering.component';
 import { MemoryhallComponent } from './memoryhall/memoryhall.component';
 
+export function initializeKeycloak(
+  keycloak: KeycloakService
+): () => Promise<boolean> {
+  return () =>
+    keycloak.init({
+      config: {
+        url: 'http://kozzuro.pl:8080',
+        realm: 'shelter_app',
+        clientId: 'test_app',
+      },
+      initOptions: {
+        checkLoginIframe: true,
+        checkLoginIframeInterval: 25,
+      },
+      loadUserProfileAtStartUp: true,
+    });
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,12 +72,13 @@ import { MemoryhallComponent } from './memoryhall/memoryhall.component';
     HomeComponent,
     ContactComponent,
     VolunteeringComponent,
-    MemoryhallComponent
+    MemoryhallComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
+    KeycloakAngularModule,
     BrowserAnimationsModule,
     MdbAccordionModule,
     MdbCarouselModule,
@@ -77,7 +97,14 @@ import { MemoryhallComponent } from './memoryhall/memoryhall.component';
     MdbValidationModule,
     AppRoutingModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeKeycloak,
+      multi: true,
+      deps: [KeycloakService],
+    },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

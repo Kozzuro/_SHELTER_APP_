@@ -45,17 +45,16 @@ export function initializeKeycloak(
   return () =>
     keycloak.init({
       config: {
-        url: 'http://kozzuro.pl:8080',
-        realm: 'master',
-        clientId: 'shelter',
+        url: 'http://localhost:8080',
+        realm: 'shelter',
+        clientId: 'shelterClient',
       },
       initOptions: {
-        flow: 'implicit',
-        checkLoginIframe: true,
-        checkLoginIframeInterval: 25,
-        // onLoad: 'check-sso',
-        // silentCheckSsoRedirectUri:
-        //   window.location.origin + '../assets/silent-check-sso.html'
+        // checkLoginIframe: true,
+        // checkLoginIframeInterval: 25,
+        onLoad: 'check-sso',
+        silentCheckSsoRedirectUri:
+          window.location.origin + '../assets/silent-check-sso.html'
       },
       loadUserProfileAtStartUp: true,
     });

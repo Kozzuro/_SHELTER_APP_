@@ -14,7 +14,9 @@ import { HomeComponent } from './home/home.component';
 import { MemoryhallComponent } from './memoryhall/memoryhall.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { VolunteeringComponent } from './volunteering/volunteering.component';
+import { SignInComponent } from './sign-in/sign-in.component';
 
+import { AuthGuard } from '@auth0/auth0-angular';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -26,11 +28,12 @@ const routes: Routes = [
   { path: 'dogs', component: DogsComponent },
   { path: 'dog/:id', component: DogComponent },
   { path: 'gallery', component: GalleryComponent },
-  { path: 'control', component: ControlComponent },
+  { path: 'control', component: ControlComponent, canActivate: [AuthGuard] },
   { path: 'home', component: HomeComponent },
   { path: 'memoryhall', component: MemoryhallComponent },
   { path: '404', component: NotfoundComponent },
-  { path: 'volunteering', component: VolunteeringComponent }
+  { path: 'volunteering', component: VolunteeringComponent },
+  { path: 'signIn', component: SignInComponent },
 ];
 
 @NgModule({

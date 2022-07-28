@@ -4,6 +4,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
+import { AuthModule } from '@auth0/auth0-angular';
+import { environment } from '../environments/environment';
 
 // MDB Modules
 import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
@@ -37,6 +39,7 @@ import { HomeComponent } from './home/home.component';
 import { ContactComponent } from './contact/contact.component';
 import { VolunteeringComponent } from './volunteering/volunteering.component';
 import { MemoryhallComponent } from './memoryhall/memoryhall.component';
+import { SignInComponent } from './sign-in/sign-in.component';
 
 @NgModule({
   declarations: [
@@ -53,12 +56,14 @@ import { MemoryhallComponent } from './memoryhall/memoryhall.component';
     HomeComponent,
     ContactComponent,
     VolunteeringComponent,
-    MemoryhallComponent
+    MemoryhallComponent,
+    SignInComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
+    AuthModule.forRoot(environment.auth0),
     BrowserAnimationsModule,
     MdbAccordionModule,
     MdbCarouselModule,

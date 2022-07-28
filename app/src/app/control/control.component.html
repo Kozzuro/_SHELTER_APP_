@@ -1,54 +1,98 @@
 <div class="p-3"></div>
 <div class="container">
-  <form #myform="ngForm" (ngSubmit)="onSubmit(myform)">
+  <mdb-tabs>
+    <mdb-tab title="Tab 1">Tab content 1</mdb-tab>
+    <mdb-tab title="Tab 2">Tab content 2</mdb-tab>
+    <mdb-tab title="Tab 3">Tab content 3</mdb-tab>
+  </mdb-tabs>
 
-    <mdb-form-control>
-      <input mdbInput type="text" name="name" class="form-control" ngModel />
-      <label mdbLabel class="form-label" for="form3Example1">Name</label>
-    </mdb-form-control>
-
-    <div class="p-2"></div>
-
-    <mdb-form-control>
-      <input mdbInput type="text" name="breed" class="form-control" ngModel />
-      <label mdbLabel class="form-label" for="form3Example1">Breed</label>
-    </mdb-form-control>
-
-    <div class="p-2"></div>
-
-    <mdb-form-control>
-      <input
-        mdbInput
-        type="text"
-        name="microchip"
-        class="form-control"
-        ngModel
-      />
-      <label mdbLabel class="form-label" for="form3Example1"
-        >Microchip number</label
-      >
-    </mdb-form-control>
-
-    <div class="p-2"></div>
-
-    <mdb-form-control>
-      <input mdbInput type="date" name="birth" class="form-control" ngModel />
-    </mdb-form-control>
-
-    <div class="p-2"></div>
-
+  <form #newDog="ngForm" (ngSubmit)="onSubmitNewDog(newDog)">
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-4">
         <mdb-form-control>
-          <input mdbInput type="file" multiple name="images" class="form-control" (change)="onFileSelected($event)"/>
+          <input
+            mdbInput
+            type="text"
+            name="name"
+            class="form-control"
+            ngModel
+          />
+          <label mdbLabel class="form-label" for="form3Example1">Name</label>
         </mdb-form-control>
+        <div class="p-2"></div>
       </div>
-      <div class="col-md-6">
-        <button type="button" (click)="uploadImages()" class="btn btn-success btn-rounded">Upload images</button>
+      <div class="col-md-4">
+        <mdb-form-control>
+          <input
+            mdbInput
+            type="text"
+            name="breed"
+            class="form-control"
+            ngModel
+          />
+          <label mdbLabel class="form-label" for="form3Example1">Breed</label>
+        </mdb-form-control>
+        <div class="p-2"></div>
+      </div>
+      <div class="col-md-4">
+        <mdb-form-control>
+          <input
+            mdbInput
+            type="date"
+            name="birth"
+            class="form-control"
+            ngModel
+          />
+        </mdb-form-control>
+        <div class="p-2"></div>
       </div>
     </div>
 
-    <div class="p-2"></div>
+    <div class="row">
+      <div class="col-md-4">
+        <mdb-form-control>
+          <input
+            mdbInput
+            type="text"
+            name="microchip"
+            class="form-control"
+            ngModel
+          />
+          <label mdbLabel class="form-label" for="form3Example1"
+            >Microchip number</label
+          >
+        </mdb-form-control>
+        <div class="p-2"></div>
+      </div>
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-6">
+            <mdb-form-control>
+              <input
+                mdbInput
+                type="file"
+                multiple
+                name="images"
+                class="form-control"
+                (change)="onFileSelected($event)"
+              />
+            </mdb-form-control>
+            <div class="p-2"></div>
+          </div>
+          <div class="col-md-6">
+            <button
+              type="button"
+              (click)="uploadImages()"
+              class="btn btn-primary btn-rounded"
+              [disabled]="uploadDogImagesButton"
+            >
+              Upload images
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="p-2"></div>
+    </div>
 
     <mdb-form-control>
       <textarea
@@ -79,7 +123,7 @@
     <div class="p-2"></div>
 
     <div class="d-inline me-2">
-        <a>Is alive?</a>
+      <a>Is alive?</a>
     </div>
     <div class="form-check form-check-inline">
       <input
@@ -106,7 +150,7 @@
 
     <div class="p-2"></div>
 
-    <button type="submit" class="btn btn-success btn-rounded">Create</button>
+    <button type="submit" [disabled]="newDogButton" class="btn btn-success btn-rounded">Create</button>
   </form>
 </div>
 <div class="p-3"></div>

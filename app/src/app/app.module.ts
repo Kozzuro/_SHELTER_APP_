@@ -1,9 +1,10 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
+import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 
 // MDB Modules
 import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
@@ -37,6 +38,25 @@ import { HomeComponent } from './home/home.component';
 import { ContactComponent } from './contact/contact.component';
 import { VolunteeringComponent } from './volunteering/volunteering.component';
 import { MemoryhallComponent } from './memoryhall/memoryhall.component';
+import { AuthGuard } from './auth.guard';
+
+export function initializeKeycloak(keycloak: KeycloakService): () => Promise<boolean> {
+  return () =>
+      keycloak.init({
+          config: {
+              url: 'http://localhost:8080',
+              realm: 'test',
+              clientId: 'test',
+          },
+          initOptions: {
+              checkLoginIframe: true,
+              checkLoginIframeInterval: 25
+          },
+          enableBearerInterceptor: true,
+          loadUserProfileAtStartUp: true,
+          bearerPrefix: 'Bearer',
+      });
+}
 
 @NgModule({
   declarations: [
@@ -59,6 +79,7 @@ import { MemoryhallComponent } from './memoryhall/memoryhall.component';
     BrowserModule,
     HttpClientModule,
     FormsModule,
+    KeycloakAngularModule,
     BrowserAnimationsModule,
     MdbAccordionModule,
     MdbCarouselModule,
@@ -77,7 +98,15 @@ import { MemoryhallComponent } from './memoryhall/memoryhall.component';
     MdbValidationModule,
     AppRoutingModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeKeycloak,
+      multi: true,
+      deps: [KeycloakService],
+    },
+    AuthGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

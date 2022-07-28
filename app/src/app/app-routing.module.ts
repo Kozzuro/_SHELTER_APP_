@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AnimalComponent } from './animal/animal.component';
 import { AnimalsComponent } from './animals/animals.component';
+import { AuthGuard } from './auth.guard';
 import { CatComponent } from './cat/cat.component';
 import { CatsComponent } from './cats/cats.component';
 import { ContactComponent } from './contact/contact.component';
@@ -26,7 +27,7 @@ const routes: Routes = [
   { path: 'dogs', component: DogsComponent },
   { path: 'dog/:id', component: DogComponent },
   { path: 'gallery', component: GalleryComponent },
-  { path: 'control', component: ControlComponent },
+  { path: 'control', component: ControlComponent, canActivate: [AuthGuard] },
   { path: 'home', component: HomeComponent },
   { path: 'memoryhall', component: MemoryhallComponent },
   { path: '404', component: NotfoundComponent },

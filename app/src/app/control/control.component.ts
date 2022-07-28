@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { DogsService } from '../services/dogs.service';
 import { ApiService } from '../services/api.service';
+import { KeycloakService } from 'keycloak-angular';
 
 @Component({
   selector: 'app-control',
@@ -12,9 +13,13 @@ export class ControlComponent implements OnInit {
   public images = [];
   public images_url = [];
 
-  constructor(private service: DogsService, private ApiService: ApiService) {}
+  constructor(private service: DogsService, private ApiService: ApiService, private keycloakService: KeycloakService) {}
 
   ngOnInit() {}
+
+  logout(): void {
+    this.keycloakService.logout('http://localhost:4200');
+  }
 
   onFileSelected(event) {
     if (event.target.files.length > 0) {

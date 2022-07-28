@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind utilities;
+
+@layer utilities {
+  @variants responsive {
+    .masonry {
+      column-gap: 1.7em;
+      column-count: 1;
+    }
+    .masonry-sm {
+      column-gap: 1.7em;
+      column-count: 2;
+    }
+    .masonry-md {
+      column-gap: 1.7em;
+      column-count: 3;
+    }
+    .break-inside {
+      break-inside: avoid;
+    }
+  }
+}
+
+#dogImage{
+    border-radius: 10px;
+}

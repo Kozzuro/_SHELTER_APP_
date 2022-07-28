@@ -58,6 +58,8 @@ export class ControlComponent implements OnInit {
     let all = Object.assign(form.value, { images: this.images_url });
     this.service.postDog(all).subscribe((response) => {
       console.log(response);
+      this.images.length = 0;
+      this.images_url.length = 0;
     });
   }
 }

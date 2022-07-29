@@ -11,6 +11,7 @@ const headers = new HttpHeaders({
   Authorization: `Bearer ${TOKEN}`,
 });
 
+
 @Injectable({
   providedIn: 'root',
 })
@@ -18,9 +19,18 @@ export class DogsService {
   constructor(private http: HttpClient) {}
 
   private url = `http://${API_URL}/api/v1/dogs`;
+  // private paginationURL = `http://${API_URL}/api/v1/dogs/${PAGE}/${LIMIT}`;
 
   getDogs(): Observable<any> {
     return this.http.get(this.url, { headers: headers });
+  }
+
+  getDogsPagination(PAGE, LIMIT): Observable<any> {
+    return this.http.get(`http://${API_URL}/api/v1/dogs/${PAGE}/${LIMIT}`, { headers: headers });
+  }
+
+  getDog(ID): Observable<any>{
+    return this.http.get(`http://${API_URL}/api/v1/dogs/${ID}`, { headers: headers });
   }
 
   postDog(body) {

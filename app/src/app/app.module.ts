@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { AuthModule } from '@auth0/auth0-angular';
 import { environment } from '../environments/environment';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 // MDB Modules
 import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
@@ -64,6 +65,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
     HttpClientModule,
     FormsModule,
     AuthModule.forRoot(environment.auth0),
+    InfiniteScrollModule,
     BrowserAnimationsModule,
     MdbAccordionModule,
     MdbCarouselModule,

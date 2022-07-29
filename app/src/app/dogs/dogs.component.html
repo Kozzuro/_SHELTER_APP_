@@ -1,18 +1,22 @@
-<!-- <div *ngFor="let dog of dogs">
-  <h3>{{ dog.name }} : {{ dog.birth }}: {{ dog.images[0] }}</h3>
-</div> -->
-
 <div class="p-3"></div>
 
-<div class="container">
+<div class="container" infinite-scroll (scrolled)="onScrollDown($event)">
   <div class="columns-2 md:columns-3 lg:columns-4">
-    <div *ngFor="let dog of dogs" class="img-overlay">
-      <img id="dogImage"  class="mb-4" src="{{ dog.images[0] }}" />
-      <div class="overlay">
-        <div class="text">{{ dog.name }}</div>
+    <div *ngFor="let dogss of dogs">
+      <div *ngFor="let dog of dogss" class="img-overlay">
+        <img id="dogImage" class="mb-4" src="{{ dog.images[0] }}"/>
+        <div class="overlay" [routerLink]="['/dog', dog.id]">
+          <div class="text">{{ dog.name }}</div>
+        </div>
       </div>
     </div>
   </div>
+</div>
+
+<div class="p-3"></div>
+
+<div id="thatsAllContainer" class="container">
+  <i class="fa-solid fa-paw fa-lg px-2"></i><p id="thatsAll">That's all</p><i class="fa-solid fa-paw fa-lg px-2"></i>
 </div>
 
 <div class="p-3"></div>

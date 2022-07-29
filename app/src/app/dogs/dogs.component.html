@@ -6,7 +6,12 @@
 
 <div class="container">
   <div class="columns-2 md:columns-3 lg:columns-4">
-    <img id="dogImage" *ngFor="let dog of dogs" class="mb-4" src="{{ dog.images[0] }}"/>
+    <div *ngFor="let dog of dogs" class="img-overlay">
+      <img id="dogImage"  class="mb-4" src="{{ dog.images[0] }}" />
+      <div class="overlay">
+        <div class="text">{{ dog.name }}</div>
+      </div>
+    </div>
   </div>
 </div>
 

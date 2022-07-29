@@ -1,10 +1,14 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
+import {
+  KeycloakAngularModule,
+  KeycloakBearerInterceptor,
+  KeycloakService,
+} from 'keycloak-angular';
 
 // MDB Modules
 import { MdbAccordionModule } from 'mdb-angular-ui-kit/accordion';
@@ -40,22 +44,28 @@ import { VolunteeringComponent } from './volunteering/volunteering.component';
 import { MemoryhallComponent } from './memoryhall/memoryhall.component';
 import { AuthGuard } from './auth.guard';
 
-export function initializeKeycloak(keycloak: KeycloakService): () => Promise<boolean> {
+export function initializeKeycloak(
+  keycloak: KeycloakService
+): () => Promise<boolean> {
   return () =>
-      keycloak.init({
-          config: {
-              url: 'http://localhost:8080',
-              realm: 'test',
-              clientId: 'test',
-          },
-          initOptions: {
-              checkLoginIframe: true,
-              checkLoginIframeInterval: 25
-          },
-          enableBearerInterceptor: true,
-          loadUserProfileAtStartUp: true,
-          bearerPrefix: 'Bearer',
-      });
+    keycloak.init({
+      config: {
+        url: 'http://localhost:8080/',
+        realm: 'angular_test',
+        clientId: 'angular_app',
+      },
+      bearerExcludedUrls: ['https://api.cloudinary.com/v1_1/kozzuro/image/upload', '/clients/public'],
+      bearerPrefix: 'Bearer',
+      enableBearerInterceptor: true,
+      initOptions: {
+        // onLoad: 'login-required',
+        // checkLoginIframe: true,
+        // checkLoginIframeInterval: 1000,
+        onLoad: 'check-sso',
+        silentCheckSsoRedirectUri:
+          window.location.origin + '/assets/silent-check-sso.html',
+      },
+    });
 }
 
 @NgModule({
@@ -73,7 +83,7 @@ export function initializeKeycloak(keycloak: KeycloakService): () => Promise<boo
     HomeComponent,
     ContactComponent,
     VolunteeringComponent,
-    MemoryhallComponent
+    MemoryhallComponent,
   ],
   imports: [
     BrowserModule,
@@ -105,8 +115,12 @@ export function initializeKeycloak(keycloak: KeycloakService): () => Promise<boo
       multi: true,
       deps: [KeycloakService],
     },
-    AuthGuard
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: KeycloakBearerInterceptor,
+      multi: true,
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -3,6 +3,8 @@ import { NgForm } from '@angular/forms';
 import { DogsService } from '../services/dogs.service';
 import { ApiService } from '../services/api.service';
 import { AuthService } from '@auth0/auth0-angular';
+import { CatsService } from '../services/cats.service';
+import { AnimalsService } from '../services/animals.service';
 
 @Component({
   selector: 'app-control',
@@ -14,11 +16,26 @@ export class ControlComponent implements OnInit {
   public images_url = [];
 
   user: any;
+
   newDogButton: boolean;
   uploadDogImagesButton: boolean;
   areDogImagesUploaded: boolean;
 
-  constructor(private service: DogsService, private ApiService: ApiService, private authService: AuthService) {
+  newCatButton: boolean;
+  uploadCatImagesButton: boolean;
+  areCatImagesUploaded: boolean;
+
+  newAnimalButton: boolean;
+  uploadAnimalImagesButton: boolean;
+  areAnimalImagesUploaded: boolean;
+
+  constructor(
+    private dogService: DogsService,
+    private catService: CatsService,
+    private animalService: AnimalsService,
+    private ApiService: ApiService,
+    private authService: AuthService
+  ) {
     this.user = {};
   }
 
@@ -28,9 +45,15 @@ export class ControlComponent implements OnInit {
     });
     this.uploadDogImagesButton = true;
     this.newDogButton = true;
+    
+    this.uploadCatImagesButton = true;
+    this.newCatButton = true;
+
+    this.uploadAnimalImagesButton = true;
+    this.newAnimalButton = true;
   }
 
-  onFileSelected(event) {
+  onDogFileSelected(event) {
     if (event.target.files.length > 0) {
       this.uploadDogImagesButton = false;
       for (let i = 0; i < event.target.files.length; i++) {
@@ -41,7 +64,7 @@ export class ControlComponent implements OnInit {
     }
   }
 
-  uploadImages() {
+  uploadDogImages() {
     let formData = new FormData();
     for (let i = 0; i < this.images.length; i++) {
       formData.append('file', this.images[i]);
@@ -53,13 +76,88 @@ export class ControlComponent implements OnInit {
     }
     this.newDogButton = false;
   }
-  
+
   onSubmitNewDog(form: NgForm) {
     let all = Object.assign(form.value, { images: this.images_url });
-    this.service.postDog(all).subscribe((response) => {
+    this.dogService.postDog(all).subscribe((response) => {
       console.log(response);
       this.images.length = 0;
       this.images_url.length = 0;
     });
   }
+
+  ////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////
+
+  onCatFileSelected(event) {
+    if (event.target.files.length > 0) {
+      this.uploadCatImagesButton = false;
+      for (let i = 0; i < event.target.files.length; i++) {
+        this.images.push(event.target.files[i]);
+      }
+    } else {
+      this.uploadCatImagesButton = true;
+    }
+  }
+
+  uploadCatImages() {
+    let formData = new FormData();
+    for (let i = 0; i < this.images.length; i++) {
+      formData.append('file', this.images[i]);
+      formData.append('upload_preset', 'my-uploads');
+      this.ApiService.postImage(formData).subscribe((results) => {
+        console.log(results);
+        this.images_url.push(results['secure_url']);
+      });
+    }
+    this.newCatButton = false;
+  }
+
+  onSubmitNewCat(form: NgForm) {
+    let all = Object.assign(form.value, { images: this.images_url });
+    this.catService.postCat(all).subscribe((response) => {
+      console.log(response);
+      this.images.length = 0;
+      this.images_url.length = 0;
+    });
+  }
+
+  ////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////
+  
+  onAnimalFileSelected(event) {
+    if (event.target.files.length > 0) {
+      this.uploadAnimalImagesButton = false;
+      for (let i = 0; i < event.target.files.length; i++) {
+        this.images.push(event.target.files[i]);
+      }
+    } else {
+      this.uploadAnimalImagesButton = true;
+    }
+  }
+
+  uploadAnimalImages() {
+    let formData = new FormData();
+    for (let i = 0; i < this.images.length; i++) {
+      formData.append('file', this.images[i]);
+      formData.append('upload_preset', 'my-uploads');
+      this.ApiService.postImage(formData).subscribe((results) => {
+        console.log(results);
+        this.images_url.push(results['secure_url']);
+      });
+    }
+    this.newAnimalButton = false;
+  }
+
+  onSubmitNewAnimal(form: NgForm) {
+    let all = Object.assign(form.value, { images: this.images_url });
+    this.animalService.postAnimal(all).subscribe((response) => {
+      console.log(response);
+      this.images.length = 0;
+      this.images_url.length = 0;
+    });
+  }
+
 }

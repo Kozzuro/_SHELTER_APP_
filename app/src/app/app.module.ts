@@ -58,7 +58,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
     ContactComponent,
     VolunteeringComponent,
     MemoryhallComponent,
-    SignInComponent
+    SignInComponent,
   ],
   imports: [
     BrowserModule,

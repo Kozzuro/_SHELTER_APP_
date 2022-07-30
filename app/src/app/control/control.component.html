@@ -296,7 +296,265 @@
       </form>
     </mdb-tab>
 
-    <mdb-tab title="Animals">Tab content 3</mdb-tab>
+    <mdb-tab title="Animals">
+      <form #newAnimal="ngForm" (ngSubmit)="onSubmitNewAnimal(newAnimal)">
+        <div class="row">
+          <div class="col-md-4">
+            <mdb-form-control>
+              <input
+                mdbInput
+                type="text"
+                name="name"
+                class="form-control"
+                ngModel
+              />
+              <label mdbLabel class="form-label" for="form3Example1"
+                >Name</label
+              >
+            </mdb-form-control>
+            <div class="p-2"></div>
+          </div>
+          <div class="col-md-4">
+            <mdb-form-control>
+              <input
+                mdbInput
+                type="text"
+                name="breed"
+                class="form-control"
+                ngModel
+              />
+              <label mdbLabel class="form-label" for="form3Example1"
+                >Breed</label
+              >
+            </mdb-form-control>
+            <div class="p-2"></div>
+          </div>
+          <div class="col-md-4">
+            <mdb-form-control>
+              <input
+                mdbInput
+                type="date"
+                name="birth"
+                class="form-control"
+                ngModel
+              />
+            </mdb-form-control>
+            <div class="p-2"></div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4">
+            <mdb-form-control>
+              <input
+                mdbInput
+                type="text"
+                name="microchip"
+                class="form-control"
+                ngModel
+              />
+              <label mdbLabel class="form-label" for="form3Example1"
+                >Microchip number</label
+              >
+            </mdb-form-control>
+            <div class="p-2"></div>
+          </div>
+          <div class="col-md-8">
+            <div class="row">
+              <div class="col-md-6">
+                <mdb-form-control>
+                  <input
+                    mdbInput
+                    type="file"
+                    multiple
+                    name="images"
+                    class="form-control"
+                    (change)="onAnimalFileSelected($event)"
+                  />
+                </mdb-form-control>
+                <div class="p-2"></div>
+              </div>
+              <div class="col-md-6">
+                <button
+                  type="button"
+                  (click)="uploadAnimalImages()"
+                  class="btn btn-primary btn-rounded"
+                  [disabled]="uploadAnimalImagesButton"
+                >
+                  Upload images
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="p-2"></div>
+        </div>
+
+        <mdb-form-control>
+          <textarea
+            mdbInput
+            type="text"
+            name="description"
+            class="form-control"
+            ngModel
+            rows="10"
+          ></textarea>
+          <label mdbLabel class="form-label" for="form3Example1"
+            >Description</label
+          >
+        </mdb-form-control>
+
+        <div class="p-2"></div>
+
+        <div class="d-inline me-2">
+          <a>Is alive?</a>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            mdbCheckbox
+            class="form-check-input"
+            type="checkbox"
+            name="alive"
+            value="option1"
+            ngModel
+          />
+          <label class="form-check-label" for="inlineCheckbox1">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            mdbCheckbox
+            class="form-check-input"
+            type="checkbox"
+            name="alive"
+            value="option2"
+            ngModel
+          />
+          <label class="form-check-label" for="inlineCheckbox2">No</label>
+        </div>
+
+        <div class="p-2"></div>
+
+        <button
+          type="submit"
+          [disabled]="newAnimalButton"
+          class="btn btn-success btn-rounded"
+        >
+          Create
+        </button>
+      </form>
+    </mdb-tab>
   </mdb-tabs>
 </div>
-<div class="p-3"></div>
+
+<div class="p-5"></div>
+
+<div class="container">
+  <h3>Check · Edit · Delete</h3>
+  <mdb-tabs>
+    <mdb-tab title="Dog">
+      <table class="table align-middle table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Birth Date</th>
+            <th scope="col">Alive</th>
+            <th scope="col">Check</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let dogs of allDogs">
+          <tr *ngFor="let dog of dogs">
+            <th>{{ dog.name }}</th>
+            <td>{{ dog.birth }}</td>
+            <td>{{ dog.alive }}</td>
+            <td><a class="text-secondary fw-bold" (click)="checkDog(dog.id)">Check</a></td>
+            <td><a class="text-warning fw-bold" (click)="editDog(dog.id)">Edit</a></td>
+            <td><a class="text-danger fw-bold" (click)="deleteDog(dog.id)">Delete</a></td>
+          </tr>
+        </tbody>
+      </table>
+      <nav>
+        <ul class="pagination">
+          <li class="page-item">
+            <a class="page-link" (click)="previousDogs()">Previous</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" (click)="nextDogs()">Next</a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="p-2"></div>
+
+      <form #updateDog="ngForm" (ngSubmit)="onSubmitNewAnimal(updateDog)">
+        <div class="col-md-4">
+          <mdb-form-control>
+            <input
+              mdbInput
+              type="text"
+              name="microchip"
+              class="form-control"
+              ngModel
+              value="{{ microchipDogNumberEdit }}"
+            />
+            <label mdbLabel class="form-label" for="form3Example1"
+              >Microchip number</label
+            >
+          </mdb-form-control>
+        </div>
+        <div class="p-2"></div>
+        <mdb-form-control>
+          <textarea
+            id="descriptionEdit"
+            mdbInput
+            type="text"
+            name="description"
+            class="form-control"
+            ngModel
+            rows="10"
+          ></textarea>
+          <label mdbLabel class="form-label" for="form3Example1"
+            >Description</label
+          >
+        </mdb-form-control>
+        <div class="p-2"></div>
+        <div class="d-inline me-2">
+          <a>Is alive?</a>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            mdbCheckbox
+            class="form-check-input"
+            type="checkbox"
+            name="alive"
+            value="option1"
+            ngModel
+          />
+          <label class="form-check-label" for="inlineCheckbox1">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            mdbCheckbox
+            class="form-check-input"
+            type="checkbox"
+            name="alive"
+            value="option2"
+            ngModel
+          />
+          <label class="form-check-label" for="inlineCheckbox2">No</label>
+        </div>
+        <div class="p-2"></div>
+        <button
+        type="submit"
+        class="btn btn-success btn-rounded"
+      >
+        Update
+      </button>
+      </form>
+    </mdb-tab>
+    <mdb-tab title="Cat"></mdb-tab>
+    <mdb-tab title="Animal"></mdb-tab>
+  </mdb-tabs>
+</div>
+
+<div class="p-5"></div>

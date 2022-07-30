@@ -15,6 +15,19 @@ export class ControlComponent implements OnInit {
   public images = [];
   public images_url = [];
 
+  public allDogs = [];
+  public allCats = [];
+  public allAnimals = [];
+
+  isItAllDogs: boolean;
+  isItAllCats: boolean;
+  isItAllAnimals: boolean;
+
+  pageNumber = 1;
+  pageLimit = 5;
+
+  microchipDogNumberEdit: string;
+
   user: any;
 
   newDogButton: boolean;
@@ -45,12 +58,16 @@ export class ControlComponent implements OnInit {
     });
     this.uploadDogImagesButton = true;
     this.newDogButton = true;
-    
+
     this.uploadCatImagesButton = true;
     this.newCatButton = true;
 
     this.uploadAnimalImagesButton = true;
     this.newAnimalButton = true;
+
+    this.isItAllDogs = true;
+
+    this.getDogsPagination(this.pageNumber, this.pageLimit);
   }
 
   onDogFileSelected(event) {
@@ -84,6 +101,54 @@ export class ControlComponent implements OnInit {
       this.images.length = 0;
       this.images_url.length = 0;
     });
+  }
+
+  getDogsPagination(PAGE, LIMIT) {
+    if (this.isItAllDogs === true) {
+      this.dogService.getDogsPagination(PAGE, LIMIT).subscribe((results) => {
+        let isEmptyCheck = [];
+        isEmptyCheck = results.data.data;
+        if (isEmptyCheck.length === 0) {
+          this.isItAllDogs = false;
+          console.log(false);
+        } else {
+          this.allDogs.push(results.data.data);
+        }
+      });
+    }
+  }
+
+  previousDogs() {
+    console.log('previous')
+    if (this.isItAllDogs === true) {
+      this.pageNumber--;
+      this.allDogs.length = 0;
+      this.getDogsPagination(this.pageNumber, this.pageLimit);
+    } else {
+      return;
+    }
+  }
+
+  nextDogs() {
+    if (this.isItAllDogs === true) {
+      this.pageNumber++;
+      this.allDogs.length = 0;
+      this.getDogsPagination(this.pageNumber, this.pageLimit);
+    } else {
+      return;
+    }
+  }
+
+  checkDog(id){
+
+  }
+
+  editDog(id){
+    
+  }
+
+  deleteDog(id){
+
   }
 
   ////////////////////////////////////////////////////////////////////
@@ -126,7 +191,7 @@ export class ControlComponent implements OnInit {
   ////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////
-  
+
   onAnimalFileSelected(event) {
     if (event.target.files.length > 0) {
       this.uploadAnimalImagesButton = false;
@@ -159,5 +224,4 @@ export class ControlComponent implements OnInit {
       this.images_url.length = 0;
     });
   }
-
 }

@@ -23,7 +23,7 @@ export class DogsComponent implements OnInit {
           this.isItAll = false;
           console.log(false);
         }else{
-          this.dogs.push(results.data.data);
+          this.dogs.push(results.data.data.filter(item => item.alive !== 'false'));
           console.log(this.dogs);
         }
       });

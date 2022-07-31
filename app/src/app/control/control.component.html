@@ -15,7 +15,7 @@
                 ngModel
               />
               <label mdbLabel class="form-label" for="form3Example1"
-                >Name</label
+                >Dog Name</label
               >
             </mdb-form-control>
             <div class="p-2"></div>
@@ -30,7 +30,7 @@
                 ngModel
               />
               <label mdbLabel class="form-label" for="form3Example1"
-                >Breed</label
+                >Dog Breed</label
               >
             </mdb-form-control>
             <div class="p-2"></div>
@@ -125,17 +125,6 @@
           />
           <label class="form-check-label" for="inlineCheckbox1">Yes</label>
         </div>
-        <div class="form-check form-check-inline">
-          <input
-            mdbCheckbox
-            class="form-check-input"
-            type="checkbox"
-            name="alive"
-            value="option2"
-            ngModel
-          />
-          <label class="form-check-label" for="inlineCheckbox2">No</label>
-        </div>
 
         <div class="p-2"></div>
 
@@ -162,7 +151,7 @@
                 ngModel
               />
               <label mdbLabel class="form-label" for="form3Example1"
-                >Name</label
+                >Cat Name</label
               >
             </mdb-form-control>
             <div class="p-2"></div>
@@ -177,7 +166,7 @@
                 ngModel
               />
               <label mdbLabel class="form-label" for="form3Example1"
-                >Breed</label
+                >Cat Breed</label
               >
             </mdb-form-control>
             <div class="p-2"></div>
@@ -269,19 +258,9 @@
             name="alive"
             value="option1"
             ngModel
+            [checked]="newDogChecked"
           />
           <label class="form-check-label" for="inlineCheckbox1">Yes</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input
-            mdbCheckbox
-            class="form-check-input"
-            type="checkbox"
-            name="alive"
-            value="option2"
-            ngModel
-          />
-          <label class="form-check-label" for="inlineCheckbox2">No</label>
         </div>
 
         <div class="p-2"></div>
@@ -309,7 +288,7 @@
                 ngModel
               />
               <label mdbLabel class="form-label" for="form3Example1"
-                >Name</label
+                >Animal Name</label
               >
             </mdb-form-control>
             <div class="p-2"></div>
@@ -324,7 +303,7 @@
                 ngModel
               />
               <label mdbLabel class="form-label" for="form3Example1"
-                >Breed</label
+                >Animal Breed</label
               >
             </mdb-form-control>
             <div class="p-2"></div>
@@ -419,17 +398,6 @@
           />
           <label class="form-check-label" for="inlineCheckbox1">Yes</label>
         </div>
-        <div class="form-check form-check-inline">
-          <input
-            mdbCheckbox
-            class="form-check-input"
-            type="checkbox"
-            name="alive"
-            value="option2"
-            ngModel
-          />
-          <label class="form-check-label" for="inlineCheckbox2">No</label>
-        </div>
 
         <div class="p-2"></div>
 
@@ -457,6 +425,7 @@
             <th scope="col">Name</th>
             <th scope="col">Birth Date</th>
             <th scope="col">Alive</th>
+            <th scope="col">Microchip</th>
             <th scope="col">Show</th>
             <th scope="col">Edit</th>
             <th scope="col">Delete</th>
@@ -467,8 +436,9 @@
             <th>{{ dog.name }}</th>
             <td>{{ dog.birth }}</td>
             <td>{{ dog.alive }}</td>
+            <td>{{ dog.microchip }}</td>
             <td><a class="text-secondary fw-bold" (click)="checkDog(dog.images[0])">Show</a></td>
-            <td><a class="text-warning fw-bold" (click)="editDog(dog.microchip, dog.description)">Edit</a></td>
+            <td><a class="text-warning fw-bold" (click)="editDog(dog.id, dog.microchip, dog.description, dog.alive, dog)">Edit</a></td>
             <td><a class="text-danger fw-bold" (click)="deleteDog(dog.id)">Delete</a></td>
           </tr>
         </tbody>
@@ -476,17 +446,17 @@
       <nav>
         <ul class="pagination">
           <li class="page-item">
-            <a class="page-link" (click)="previousDogs()">Previous</a>
+            <button [hidden]="previousDogsButton" class="page-link" (click)="previousDogs()">Previous</button>
           </li>
           <li class="page-item">
-            <a class="page-link" (click)="nextDogs()">Next</a>
+            <button [hidden]="nextDogsButton" class="page-link" (click)="nextDogs()">Next</button>
           </li>
         </ul>
       </nav>
 
       <div class="p-2"></div>
 
-      <form #updateDog="ngForm" (ngSubmit)="onSubmitNewAnimal(updateDog)">
+      <form #updateDog="ngForm" (ngSubmit)="onSubmitUpdateDog(updateDog)">
         <div class="col-md-4">
           <mdb-form-control>
             <input
@@ -530,19 +500,9 @@
             name="alive"
             value="option1"
             ngModel
+            [checked]="dogUpdateCheckBox"
           />
           <label class="form-check-label" for="inlineCheckbox1">Yes</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input
-            mdbCheckbox
-            class="form-check-input"
-            type="checkbox"
-            name="alive"
-            value="option2"
-            ngModel
-          />
-          <label class="form-check-label" for="inlineCheckbox2">No</label>
         </div>
         <div class="p-2"></div>
         <button

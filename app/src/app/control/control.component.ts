@@ -29,6 +29,13 @@ export class ControlComponent implements OnInit {
 
   microchipDogNumberEdit: string;
   textareaDogEdit: string;
+  newDogChecked: boolean;
+  dogUpdateCheckBox: boolean;
+  dogId: string;
+  dogOldBody = [];
+
+  previousDogsButton: boolean;
+  nextDogsButton: boolean;
 
   user: any;
 
@@ -69,6 +76,9 @@ export class ControlComponent implements OnInit {
 
     this.isItAllDogs = true;
 
+    this.previousDogsButton = true;
+    this.nextDogsButton = false;
+
     this.getDogsPagination(this.pageNumber, this.pageLimit);
   }
 
@@ -97,6 +107,8 @@ export class ControlComponent implements OnInit {
   }
 
   onSubmitNewDog(form: NgForm) {
+    if(form.value.alive === ''){ form.value.alive = 'false' };
+    console.log(form.value.alive);
     let all = Object.assign(form.value, { images: this.images_url });
     this.dogService.postDog(all).subscribe((response) => {
       console.log(response);
@@ -110,9 +122,14 @@ export class ControlComponent implements OnInit {
       this.dogService.getDogsPagination(PAGE, LIMIT).subscribe((results) => {
         let isEmptyCheck = [];
         isEmptyCheck = results.data.data;
+        if(isEmptyCheck.length < 5){
+          this.nextDogsButton = true;
+        }else{
+          this.nextDogsButton = false;
+        }
         if (isEmptyCheck.length === 0) {
           this.isItAllDogs = false;
-          console.log(false);
+          this.nextDogsButton = true;
         } else {
           this.allDogs.push(results.data.data);
         }
@@ -121,13 +138,16 @@ export class ControlComponent implements OnInit {
   }
 
   previousDogs() {
-    console.log('previous')
+    console.log('previous');
     if (this.isItAllDogs === true) {
       this.pageNumber--;
       this.allDogs.length = 0;
       this.getDogsPagination(this.pageNumber, this.pageLimit);
     } else {
-      return;
+      this.getDogsPagination(this.pageNumber--, this.pageLimit);
+    }
+    if(this.pageNumber == 1){
+      this.previousDogsButton = true;
     }
   }
 
@@ -136,24 +156,73 @@ export class ControlComponent implements OnInit {
       this.pageNumber++;
       this.allDogs.length = 0;
       this.getDogsPagination(this.pageNumber, this.pageLimit);
+      this.previousDogsButton = false;
     } else {
       return;
     }
   }
 
-  checkDog(image){
+  checkDog(image) {
     Swal.fire({
       imageUrl: image,
     });
   }
 
-  editDog(microchipNumber, textareaContent){
+  editDog(id, microchipNumber, textareaContent, aliveCheckbox, oldBody) {
     this.microchipDogNumberEdit = microchipNumber;
     this.textareaDogEdit = textareaContent;
+    if (aliveCheckbox === 'true') {
+      this.dogUpdateCheckBox = true;
+    } else {
+      this.dogUpdateCheckBox = false;
+    }
+    this.dogOldBody = oldBody;
+    this.dogId = id;
   }
 
-  deleteDog(id){
+  onSubmitUpdateDog(form: NgForm) {
+    Swal.fire({
+      title: 'Do you want to update?',
+      showCancelButton: true,
+      confirmButtonText: 'Update!',
+      denyButtonText: `Don't update`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let all = Object.assign(form.value, {
+          microchip: form.value.microchip,
+          description: form.value.description,
+          alive: form.value.alive
+        });
+        this.dogService.updateDog(this.dogId, all).subscribe((response) => {
+          Swal.fire('Updated!', '', 'success').then(() => {
+            this.allDogs.length = 0;
+            this.getDogsPagination(this.pageNumber, this.pageLimit);
+          });
+        });
+      } else if (result.isDenied) {
+        Swal.fire('Not updated!', '', 'info');
+      }
+    });
+  }
 
+  deleteDog(id) {
+    Swal.fire({
+      title: 'Do you want to delete?',
+      showCancelButton: true,
+      confirmButtonText: 'Delete!',
+      denyButtonText: `Don't delete`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.dogService.deleteDog(id).subscribe(() => {
+          Swal.fire('Deleted!', '', 'success').then(() => {
+            this.allDogs.length = 0;
+            this.getDogsPagination(this.pageNumber, this.pageLimit);
+          });
+        });
+      } else if (result.isDenied) {
+        Swal.fire('Not deleted!', '', 'info');
+      }
+    });
   }
 
   ////////////////////////////////////////////////////////////////////

@@ -35,5 +35,13 @@ export class DogsService {
   postDog(body) {
     return this.http.post(this.url, body, { headers: headers });
   }
+  
+  updateDog(ID, body) {
+    return this.http.patch(`http://${API_URL}/api/v1/dogs/${ID}`, body, { headers: headers });
+  }
+
+  deleteDog(ID) {
+    return this.http.delete(`http://${API_URL}/api/v1/dogs/${ID}`, { headers: headers });
+  }
 
 }

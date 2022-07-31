@@ -448,7 +448,7 @@
 <div class="p-5"></div>
 
 <div class="container">
-  <h3>Check · Edit · Delete</h3>
+  <h3>Show · Edit · Delete</h3>
   <mdb-tabs>
     <mdb-tab title="Dog">
       <table class="table align-middle table-striped">
@@ -457,7 +457,7 @@
             <th scope="col">Name</th>
             <th scope="col">Birth Date</th>
             <th scope="col">Alive</th>
-            <th scope="col">Check</th>
+            <th scope="col">Show</th>
             <th scope="col">Edit</th>
             <th scope="col">Delete</th>
           </tr>
@@ -467,8 +467,8 @@
             <th>{{ dog.name }}</th>
             <td>{{ dog.birth }}</td>
             <td>{{ dog.alive }}</td>
-            <td><a class="text-secondary fw-bold" (click)="checkDog(dog.id)">Check</a></td>
-            <td><a class="text-warning fw-bold" (click)="editDog(dog.id)">Edit</a></td>
+            <td><a class="text-secondary fw-bold" (click)="checkDog(dog.images[0])">Show</a></td>
+            <td><a class="text-warning fw-bold" (click)="editDog(dog.microchip, dog.description)">Edit</a></td>
             <td><a class="text-danger fw-bold" (click)="deleteDog(dog.id)">Delete</a></td>
           </tr>
         </tbody>
@@ -512,6 +512,7 @@
             class="form-control"
             ngModel
             rows="10"
+            value="{{ textareaDogEdit }}"
           ></textarea>
           <label mdbLabel class="form-label" for="form3Example1"
             >Description</label

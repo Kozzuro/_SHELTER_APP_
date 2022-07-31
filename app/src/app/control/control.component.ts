@@ -5,6 +5,7 @@ import { ApiService } from '../services/api.service';
 import { AuthService } from '@auth0/auth0-angular';
 import { CatsService } from '../services/cats.service';
 import { AnimalsService } from '../services/animals.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-control',
@@ -27,6 +28,7 @@ export class ControlComponent implements OnInit {
   pageLimit = 5;
 
   microchipDogNumberEdit: string;
+  textareaDogEdit: string;
 
   user: any;
 
@@ -139,12 +141,15 @@ export class ControlComponent implements OnInit {
     }
   }
 
-  checkDog(id){
-
+  checkDog(image){
+    Swal.fire({
+      imageUrl: image,
+    });
   }
 
-  editDog(id){
-    
+  editDog(microchipNumber, textareaContent){
+    this.microchipDogNumberEdit = microchipNumber;
+    this.textareaDogEdit = textareaContent;
   }
 
   deleteDog(id){

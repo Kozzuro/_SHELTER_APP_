@@ -1,1 +1,45 @@
-<p>animal works!</p>
+<div class="p-3"></div>
+<div class="container">
+  <div class="row justify-content-center d-flex">
+    <div class="col-md-4">
+      <div *ngFor="let animal of animals">
+        <img id="animalImage" class="img-fluid" src="{{ animal.images[0] }}" />
+      </div>
+    </div>
+    <div class="p-3"></div>
+    <div class="col-md-12">
+      <div id="animalName" class="text-center" *ngFor="let animal of animals">
+        <h1>{{ animal.name }}</h1>
+      </div>
+      <div class="p-3"></div>
+      <div class="row justify-content-center d-flex text-center">
+        <div class="col-md-4">
+          <div id="thatsAllContainer" *ngFor="let animal of animals">
+            <i class="fa-solid fa-cake-candles px-2 fa-2x"></i>
+            <i>{{ animal.birth }}</i>
+          </div>
+          <div class="p-2"></div>
+        </div>
+        <div class="col-md-4">
+          <div id="thatsAllContainer" *ngFor="let animal of animals">
+            <i class="fa-solid fa-spa px-2 fa-2x"></i>
+            <i>{{ animal.breed }}</i>
+          </div>
+          <div class="p-2"></div>
+        </div>
+        <div class="col-md-4">
+          <div id="thatsAllContainer" *ngFor="let animal of animals">
+            <i class="fa-solid fa-calendar px-2 fa-2x"></i>
+            <i>{{ year }}</i>
+          </div>
+          <div class="p-2"></div>
+        </div>
+      </div>
+      <div class="p-3"></div>
+      <div class="container pJustify" *ngFor="let animal of animals">
+        <p>{{ animal.description }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="p-3"></div>

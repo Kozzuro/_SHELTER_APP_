@@ -34,8 +34,28 @@ export class ControlComponent implements OnInit {
   dogId: string;
   dogOldBody = [];
 
+  microchipCatNumberEdit: string;
+  textareaCatEdit: string;
+  newCatChecked: boolean;
+  catUpdateCheckBox: boolean;
+  catId: string;
+  catOldBody = [];
+
+  microchipAnimalNumberEdit: string;
+  textareaAnimalEdit: string;
+  newAnimalChecked: boolean;
+  animalUpdateCheckBox: boolean;
+  animalId: string;
+  animalOldBody = [];
+
   previousDogsButton: boolean;
   nextDogsButton: boolean;
+
+  previousCatsButton: boolean;
+  nextCatsButton: boolean;
+
+  previousAnimalsButton: boolean;
+  nextAnimalsButton: boolean;
 
   user: any;
 
@@ -75,11 +95,19 @@ export class ControlComponent implements OnInit {
     this.newAnimalButton = true;
 
     this.isItAllDogs = true;
+    this.isItAllCats = true;
+    this.isItAllAnimals = true;
 
     this.previousDogsButton = true;
     this.nextDogsButton = false;
+    this.previousCatsButton = true;
+    this.nextCatsButton = false;
+    this.previousAnimalsButton = true;
+    this.nextAnimalsButton = false;
 
     this.getDogsPagination(this.pageNumber, this.pageLimit);
+    this.getCatsPagination(this.pageNumber, this.pageLimit);
+    this.getAnimalsPagination(this.pageNumber, this.pageLimit);
   }
 
   onDogFileSelected(event) {
@@ -108,12 +136,12 @@ export class ControlComponent implements OnInit {
 
   onSubmitNewDog(form: NgForm) {
     if(form.value.alive === ''){ form.value.alive = 'false' };
-    console.log(form.value.alive);
     let all = Object.assign(form.value, { images: this.images_url });
     this.dogService.postDog(all).subscribe((response) => {
       console.log(response);
       this.images.length = 0;
       this.images_url.length = 0;
+      Swal.fire('Created!', '', 'success');
     });
   }
 
@@ -213,7 +241,7 @@ export class ControlComponent implements OnInit {
       denyButtonText: `Don't delete`,
     }).then((result) => {
       if (result.isConfirmed) {
-        this.dogService.deleteDog(id).subscribe(() => {
+        this.dogService.deleteDog(id).subscribe((response) => {
           Swal.fire('Deleted!', '', 'success').then(() => {
             this.allDogs.length = 0;
             this.getDogsPagination(this.pageNumber, this.pageLimit);
@@ -254,13 +282,123 @@ export class ControlComponent implements OnInit {
   }
 
   onSubmitNewCat(form: NgForm) {
+    if(form.value.alive === ''){ form.value.alive = 'false' };
     let all = Object.assign(form.value, { images: this.images_url });
     this.catService.postCat(all).subscribe((response) => {
       console.log(response);
       this.images.length = 0;
       this.images_url.length = 0;
+      Swal.fire('Created!', '', 'success');
     });
   }
+
+  getCatsPagination(PAGE, LIMIT) {
+    if (this.isItAllCats === true) {
+      this.catService.getCatsPagination(PAGE, LIMIT).subscribe((results) => {
+        let isEmptyCheck = [];
+        isEmptyCheck = results.data.data;
+        if(isEmptyCheck.length < 5){
+          this.nextCatsButton = true;
+        }else{
+          this.nextCatsButton = false;
+        }
+        if (isEmptyCheck.length === 0) {
+          this.isItAllCats = false;
+          this.nextCatsButton = true;
+        } else {
+          this.allCats.push(results.data.data);
+        }
+      });
+    }
+  }
+
+  previousCats() {
+    console.log('previous');
+    if (this.isItAllCats === true) {
+      this.pageNumber--;
+      this.allCats.length = 0;
+      this.getCatsPagination(this.pageNumber, this.pageLimit);
+    } else {
+      this.getCatsPagination(this.pageNumber--, this.pageLimit);
+    }
+    if(this.pageNumber == 1){
+      this.previousCatsButton = true;
+    }
+  }
+
+  nextCats() {
+    if (this.isItAllCats === true) {
+      this.pageNumber++;
+      this.allCats.length = 0;
+      this.getCatsPagination(this.pageNumber, this.pageLimit);
+      this.previousCatsButton = false;
+    } else {
+      return;
+    }
+  }
+
+  checkCat(image) {
+    Swal.fire({
+      imageUrl: image,
+    });
+  }
+
+  editCat(id, microchipNumber, textareaContent, aliveCheckbox, oldBody) {
+    this.microchipCatNumberEdit = microchipNumber;
+    this.textareaCatEdit = textareaContent;
+    if (aliveCheckbox === 'true') {
+      this.catUpdateCheckBox = true;
+    } else {
+      this.catUpdateCheckBox = false;
+    }
+    this.catOldBody = oldBody;
+    this.catId = id;
+  }
+
+  onSubmitUpdateCat(form: NgForm) {
+    Swal.fire({
+      title: 'Do you want to update?',
+      showCancelButton: true,
+      confirmButtonText: 'Update!',
+      denyButtonText: `Don't update`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let all = Object.assign(form.value, {
+          microchip: form.value.microchip,
+          description: form.value.description,
+          alive: form.value.alive
+        });
+        this.catService.updateCat(this.catId, all).subscribe((response) => {
+          Swal.fire('Updated!', '', 'success').then(() => {
+            this.allCats.length = 0;
+            this.getCatsPagination(this.pageNumber, this.pageLimit);
+          });
+        });
+      } else if (result.isDenied) {
+        Swal.fire('Not updated!', '', 'info');
+      }
+    });
+  }
+
+  deleteCat(id) {
+    Swal.fire({
+      title: 'Do you want to delete?',
+      showCancelButton: true,
+      confirmButtonText: 'Delete!',
+      denyButtonText: `Don't delete`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.catService.deleteCat(id).subscribe((response) => {
+          Swal.fire('Deleted!', '', 'success').then(() => {
+            this.allCats.length = 0;
+            this.getCatsPagination(this.pageNumber, this.pageLimit);
+          });
+        });
+      } else if (result.isDenied) {
+        Swal.fire('Not deleted!', '', 'info');
+      }
+    });
+  };
 
   ////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////
@@ -291,11 +429,122 @@ export class ControlComponent implements OnInit {
   }
 
   onSubmitNewAnimal(form: NgForm) {
+    if(form.value.alive === ''){ form.value.alive = 'false' };
     let all = Object.assign(form.value, { images: this.images_url });
     this.animalService.postAnimal(all).subscribe((response) => {
       console.log(response);
       this.images.length = 0;
       this.images_url.length = 0;
+      Swal.fire('Created!', '', 'success');
     });
   }
+
+  getAnimalsPagination(PAGE, LIMIT) {
+    if (this.isItAllAnimals === true) {
+      this.animalService.getAnimalsPagination(PAGE, LIMIT).subscribe((results) => {
+        let isEmptyCheck = [];
+        isEmptyCheck = results.data.data;
+        if(isEmptyCheck.length < 5){
+          this.nextAnimalsButton = true;
+        }else{
+          this.nextAnimalsButton = false;
+        }
+        if (isEmptyCheck.length === 0) {
+          this.isItAllAnimals = false;
+          this.nextAnimalsButton = true;
+        } else {
+          this.allAnimals.push(results.data.data);
+        }
+      });
+    }
+  }
+
+  previousAnimals() {
+    console.log('previous');
+    if (this.isItAllAnimals === true) {
+      this.pageNumber--;
+      this.allAnimals.length = 0;
+      this.getAnimalsPagination(this.pageNumber, this.pageLimit);
+    } else {
+      this.getAnimalsPagination(this.pageNumber--, this.pageLimit);
+    }
+    if(this.pageNumber == 1){
+      this.previousAnimalsButton = true;
+    }
+  }
+
+  nextAnimals() {
+    if (this.isItAllAnimals === true) {
+      this.pageNumber++;
+      this.allAnimals.length = 0;
+      this.getAnimalsPagination(this.pageNumber, this.pageLimit);
+      this.previousAnimalsButton = false;
+    } else {
+      return;
+    }
+  }
+
+  checkAnimal(image) {
+    Swal.fire({
+      imageUrl: image,
+    });
+  }
+
+  editAnimal(id, microchipNumber, textareaContent, aliveCheckbox, oldBody) {
+    this.microchipAnimalNumberEdit = microchipNumber;
+    this.textareaAnimalEdit = textareaContent;
+    if (aliveCheckbox === 'true') {
+      this.animalUpdateCheckBox = true;
+    } else {
+      this.animalUpdateCheckBox = false;
+    }
+    this.animalOldBody = oldBody;
+    this.animalId = id;
+  }
+
+  onSubmitUpdateAnimal(form: NgForm) {
+    Swal.fire({
+      title: 'Do you want to update?',
+      showCancelButton: true,
+      confirmButtonText: 'Update!',
+      denyButtonText: `Don't update`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let all = Object.assign(form.value, {
+          microchip: form.value.microchip,
+          description: form.value.description,
+          alive: form.value.alive
+        });
+        this.animalService.updateAnimals(this.catId, all).subscribe((response) => {
+          Swal.fire('Updated!', '', 'success').then(() => {
+            this.allAnimals.length = 0;
+            this.getAnimalsPagination(this.pageNumber, this.pageLimit);
+          });
+        });
+      } else if (result.isDenied) {
+        Swal.fire('Not updated!', '', 'info');
+      }
+    });
+  }
+
+  deleteAnimal(id) {
+    Swal.fire({
+      title: 'Do you want to delete?',
+      showCancelButton: true,
+      confirmButtonText: 'Delete!',
+      denyButtonText: `Don't delete`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.animalService.deleteAnimals(id).subscribe((response) => {
+          Swal.fire('Deleted!', '', 'success').then(() => {
+            this.allAnimals.length = 0;
+            this.getAnimalsPagination(this.pageNumber, this.pageLimit);
+          });
+        });
+      } else if (result.isDenied) {
+        Swal.fire('Not deleted!', '', 'info');
+      }
+    });
+  };
+
 }

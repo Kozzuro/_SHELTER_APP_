@@ -1,1 +1,22 @@
-<p>animals works!</p>
+<div class="p-3"></div>
+
+<div class="container" infinite-scroll (scrolled)="onScrollDown($event)">
+  <div class="columns-2 md:columns-3 lg:columns-4">
+    <div *ngFor="let animalss of animals">
+      <div *ngFor="let animal of animalss" class="img-overlay">
+        <img id="catImage" class="mb-4" src="{{ animal.images[0] }}"/>
+        <div class="overlay" [routerLink]="['/animal', animal.id]">
+          <div class="text">{{ animal.name }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="p-3"></div>
+
+<div id="thatsAllContainer" class="container" [hidden]="isItAll">
+  <i class="fa-solid fa-paw fa-lg px-2"></i><p id="thatsAll">That's all</p><i class="fa-solid fa-paw fa-lg px-2"></i>
+</div>
+
+<div class="p-3"></div>

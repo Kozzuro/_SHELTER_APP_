@@ -1,1 +1,22 @@
-<p>cats works!</p>
+<div class="p-3"></div>
+
+<div class="container" infinite-scroll (scrolled)="onScrollDown($event)">
+  <div class="columns-2 md:columns-3 lg:columns-4">
+    <div *ngFor="let catss of cats">
+      <div *ngFor="let cat of catss" class="img-overlay">
+        <img id="catImage" class="mb-4" src="{{ cat.images[0] }}"/>
+        <div class="overlay" [routerLink]="['/cat', cat.id]">
+          <div class="text">{{ cat.name }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="p-3"></div>
+
+<div id="thatsAllContainer" class="container" [hidden]="isItAll">
+  <i class="fa-solid fa-paw fa-lg px-2"></i><p id="thatsAll">That's all</p><i class="fa-solid fa-paw fa-lg px-2"></i>
+</div>
+
+<div class="p-3"></div>

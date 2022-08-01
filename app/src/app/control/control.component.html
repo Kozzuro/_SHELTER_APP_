@@ -437,19 +437,55 @@
             <td>{{ dog.birth }}</td>
             <td>{{ dog.alive }}</td>
             <td>{{ dog.microchip }}</td>
-            <td><a class="text-secondary fw-bold" (click)="checkDog(dog.images[0])">Show</a></td>
-            <td><a class="text-warning fw-bold" (click)="editDog(dog.id, dog.microchip, dog.description, dog.alive, dog)">Edit</a></td>
-            <td><a class="text-danger fw-bold" (click)="deleteDog(dog.id)">Delete</a></td>
+            <td>
+              <a
+                class="text-secondary fw-bold"
+                (click)="checkDog(dog.images[0])"
+                >Show</a
+              >
+            </td>
+            <td>
+              <a
+                class="text-warning fw-bold"
+                (click)="
+                  editDog(
+                    dog.id,
+                    dog.microchip,
+                    dog.description,
+                    dog.alive,
+                    dog
+                  )
+                "
+                >Edit</a
+              >
+            </td>
+            <td>
+              <a class="text-danger fw-bold" (click)="deleteDog(dog.id)"
+                >Delete</a
+              >
+            </td>
           </tr>
         </tbody>
       </table>
       <nav>
         <ul class="pagination">
           <li class="page-item">
-            <button [hidden]="previousDogsButton" class="page-link" (click)="previousDogs()">Previous</button>
+            <button
+              [hidden]="previousDogsButton"
+              class="page-link"
+              (click)="previousDogs()"
+            >
+              Previous
+            </button>
           </li>
           <li class="page-item">
-            <button [hidden]="nextDogsButton" class="page-link" (click)="nextDogs()">Next</button>
+            <button
+              [hidden]="nextDogsButton"
+              class="page-link"
+              (click)="nextDogs()"
+            >
+              Next
+            </button>
           </li>
         </ul>
       </nav>
@@ -505,16 +541,267 @@
           <label class="form-check-label" for="inlineCheckbox1">Yes</label>
         </div>
         <div class="p-2"></div>
-        <button
-        type="submit"
-        class="btn btn-success btn-rounded"
-      >
-        Update
-      </button>
+        <button type="submit" class="btn btn-success btn-rounded">
+          Update
+        </button>
       </form>
     </mdb-tab>
-    <mdb-tab title="Cat"></mdb-tab>
-    <mdb-tab title="Animal"></mdb-tab>
+    <mdb-tab title="Cat">
+      <table class="table align-middle table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Birth Date</th>
+            <th scope="col">Alive</th>
+            <th scope="col">Microchip</th>
+            <th scope="col">Show</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let cats of allCats">
+          <tr *ngFor="let cat of cats">
+            <th>{{ cat.name }}</th>
+            <td>{{ cat.birth }}</td>
+            <td>{{ cat.alive }}</td>
+            <td>{{ cat.microchip }}</td>
+            <td>
+              <a
+                class="text-secondary fw-bold"
+                (click)="checkCat(cat.images[0])"
+                >Show</a
+              >
+            </td>
+            <td>
+              <a
+                class="text-warning fw-bold"
+                (click)="
+                  editCat(
+                    cat.id,
+                    cat.microchip,
+                    cat.description,
+                    cat.alive,
+                    cat
+                  )
+                "
+                >Edit</a
+              >
+            </td>
+            <td>
+              <a class="text-danger fw-bold" (click)="deleteCat(cat.id)"
+                >Delete</a
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <nav>
+        <ul class="pagination">
+          <li class="page-item">
+            <button
+              [hidden]="previousCatsButton"
+              class="page-link"
+              (click)="previousCats()"
+            >
+              Previous
+            </button>
+          </li>
+          <li class="page-item">
+            <button
+              [hidden]="nextCatsButton"
+              class="page-link"
+              (click)="nextCats()"
+            >
+              Next
+            </button>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="p-2"></div>
+
+      <form #updateCat="ngForm" (ngSubmit)="onSubmitUpdateCat(updateCat)">
+        <div class="col-md-4">
+          <mdb-form-control>
+            <input
+              mdbInput
+              type="text"
+              name="microchip"
+              class="form-control"
+              ngModel
+              value="{{ microchipCatNumberEdit }}"
+            />
+            <label mdbLabel class="form-label" for="form3Example1"
+              >Microchip number</label
+            >
+          </mdb-form-control>
+        </div>
+        <div class="p-2"></div>
+        <mdb-form-control>
+          <textarea
+            id="descriptionEdit"
+            mdbInput
+            type="text"
+            name="description"
+            class="form-control"
+            ngModel
+            rows="10"
+            value="{{ textareaCatEdit }}"
+          ></textarea>
+          <label mdbLabel class="form-label" for="form3Example1"
+            >Description</label
+          >
+        </mdb-form-control>
+        <div class="p-2"></div>
+        <div class="d-inline me-2">
+          <a>Is alive?</a>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            mdbCheckbox
+            class="form-check-input"
+            type="checkbox"
+            name="alive"
+            value="option1"
+            ngModel
+            [checked]="catUpdateCheckBox"
+          />
+          <label class="form-check-label" for="inlineCheckbox1">Yes</label>
+        </div>
+        <div class="p-2"></div>
+        <button type="submit" class="btn btn-success btn-rounded">
+          Update
+        </button>
+      </form>
+    </mdb-tab>
+    <mdb-tab title="Animal">
+      <table class="table align-middle table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Birth Date</th>
+            <th scope="col">Alive</th>
+            <th scope="col">Microchip</th>
+            <th scope="col">Show</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let animals of allAnimals">
+          <tr *ngFor="let animal of animals">
+            <th>{{ animal.name }}</th>
+            <td>{{ animal.birth }}</td>
+            <td>{{ animal.alive }}</td>
+            <td>{{ animal.microchip }}</td>
+            <td>
+              <a
+                class="text-secondary fw-bold"
+                (click)="checkAnimal(animal.images[0])"
+                >Show</a
+              >
+            </td>
+            <td>
+              <a
+                class="text-warning fw-bold"
+                (click)="
+                  editAnimal(
+                    animal.id,
+                    animal.microchip,
+                    animal.description,
+                    animal.alive,
+                    animal
+                  )
+                "
+                >Edit</a
+              >
+            </td>
+            <td>
+              <a class="text-danger fw-bold" (click)="deleteAnimal(animal.id)"
+                >Delete</a
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <nav>
+        <ul class="pagination">
+          <li class="page-item">
+            <button
+              [hidden]="previousAnimalsButton"
+              class="page-link"
+              (click)="previousAnimals()"
+            >
+              Previous
+            </button>
+          </li>
+          <li class="page-item">
+            <button
+              [hidden]="nextAnimalsButton"
+              class="page-link"
+              (click)="nextAnimals()"
+            >
+              Next
+            </button>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="p-2"></div>
+
+      <form #updateAnimal="ngForm" (ngSubmit)="onSubmitUpdateAnimal(updateAnimal)">
+        <div class="col-md-4">
+          <mdb-form-control>
+            <input
+              mdbInput
+              type="text"
+              name="microchip"
+              class="form-control"
+              ngModel
+              value="{{ microchipAnimalNumberEdit }}"
+            />
+            <label mdbLabel class="form-label" for="form3Example1"
+              >Microchip number</label
+            >
+          </mdb-form-control>
+        </div>
+        <div class="p-2"></div>
+        <mdb-form-control>
+          <textarea
+            id="descriptionEdit"
+            mdbInput
+            type="text"
+            name="description"
+            class="form-control"
+            ngModel
+            rows="10"
+            value="{{ textareaAnimalEdit }}"
+          ></textarea>
+          <label mdbLabel class="form-label" for="form3Example1"
+            >Description</label
+          >
+        </mdb-form-control>
+        <div class="p-2"></div>
+        <div class="d-inline me-2">
+          <a>Is alive?</a>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            mdbCheckbox
+            class="form-check-input"
+            type="checkbox"
+            name="alive"
+            value="option1"
+            ngModel
+            [checked]="animalUpdateCheckBox"
+          />
+          <label class="form-check-label" for="inlineCheckbox1">Yes</label>
+        </div>
+        <div class="p-2"></div>
+        <button type="submit" class="btn btn-success btn-rounded">
+          Update
+        </button>
+      </form>
+    </mdb-tab>
   </mdb-tabs>
 </div>
 

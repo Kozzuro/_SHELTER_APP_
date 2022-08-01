@@ -1,0 +1,48 @@
+#thatsAllContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .pJustify {
+    text-align: justify;
+  }
+  
+  img {
+    border-radius: 10px;
+  }
+  
+  .col-md-12 {
+    width: 50%;
+  }
+  
+  @media screen and (max-width: 860px) {
+    .col-md-12 {
+      width: 100%;
+    }
+  }
+  
+  @media screen and (max-width: 1020px) {
+    .col-md-12 {
+      width: 100%;
+    }
+  }
+  
+  @media screen and (max-width: 767px) {
+    .col-md-12 {
+      width: 100%;
+    }
+  }
+  
+  @media screen and (max-width: 620px) {
+    .col-md-12 {
+      width: 100%;
+    }
+  }
+  
+  @media screen and (max-width: 420px) {
+    .col-md-12 {
+      width: 100%;
+    }
+  }
+  

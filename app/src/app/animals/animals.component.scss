@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind utilities;
+
+@layer utilities {
+  @variants responsive {
+    .masonry {
+      column-gap: 1.9em;
+      column-count: 1;
+    }
+    .masonry-sm {
+      column-gap: 1.9em;
+      column-count: 2;
+    }
+    .masonry-md {
+      column-gap: 1.9em;
+      column-count: 3;
+    }
+    .break-inside {
+      break-inside: avoid;
+    }
+  }
+}
+
+#animalImage{
+  border-radius: 10px;
+}
+
+.img-overlay {
+  position: relative;
+  border-radius: 10px;
+}
+
+.img-overlay-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .5s ease;
+  background-color: rgba(0,0,0,.5);
+  border-radius: 10px;
+}
+
+.img-overlay:hover .overlay {
+  opacity: 1;
+  // cursor: progress; //url();
+  // cursor: url('../../assets/cursor/paw_small.gif'), auto;
+}
+
+.text {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+#thatsAllContainer{
+  display: flex;
+  align-items: center; 
+  justify-content: center;
+}
+
+#thatsAll{
+  font-size: 25px;
+}
+
+.container{
+  overflow-x: hidden !important;
+}

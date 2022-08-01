@@ -8,7 +8,7 @@ import { AuthService } from '@auth0/auth0-angular';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit{
-  title = 'mdb-angular-ui-kit-free';
+  title = 'Shelter';
 
   isAuthenticated: boolean;
 
